@@ -29,14 +29,19 @@ urlpatterns = [
 
     # API endpoints for Events
     path('event/list', views.event_list, name = 'event_list'),
+    path('event/adduser', views.event_add_user, name = 'event_add_user'),
 
     # API engpoints for countries
     path('country/list', views.country_list, name = 'country_list'),
 
     path('user/',views.user_detail,name='user_detail'),
     path('user/create/',views.user_create,name='user_create'),
+
     path('user/invite/',views.user_invite,name='user_invite'),
-    path('user/reset/',views.reset_password,name="reset_password")
+    path('user/reset/',views.reset_password,name="reset_password"),
+
+    path('user/update',views.user_update,name='user_update'),
+
     # path('login/',views.LoginAPIView,name='login')  
 
     # Test model

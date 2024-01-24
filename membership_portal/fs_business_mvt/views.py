@@ -49,7 +49,9 @@ class OrganizationUpdate(UpdateView):
         # Save the updated object
         obj.save()
         return redirect('bussines_portal_app:organization_index')
-    
+
+
+
  # Yousif added the plan views
 class PlanList(ListView):
     model=Plan

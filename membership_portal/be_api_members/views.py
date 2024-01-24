@@ -12,7 +12,7 @@ from .models import *
 
 from rest_framework.response import Response
 import random
-from .serializers import BenefitSerializer, BenefitRESTSerializers, CountrySerializer, OrganizationSerializer, OrganizationRESTSerializers, PlanRESTSerializers, PlanSerializer, UserSerializer, ProfileSerializer, EventSerializer
+from .serializers import BenefitSerializer, BenefitRESTSerializers, CountrySerializer, OrganizationSerializer, OrganizationRESTSerializers, PlanRESTSerializers, PlanSerializer, ProfileRESTSerializers, UserSerializer, ProfileSerializer, EventSerializer
 
 # from .serializers import TestModelSerializer
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser, FileUploadParser
@@ -90,8 +90,9 @@ def benefit_detail(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def benefit_qrcode(request):
-    benefit_url = str(os.getenv('FRONTENDURL'))
     benefit_id = request.query_params['id']
+    member_id = request.query_params['member']
+    redeem_url = str(os.getenv('FRONTENDURL')) + f'/benefit/redeem?id={benefit_id}&memeber={member_id}'
     # if benefit doesnt exist, return an error
     try:
         benefit = Benefit.objects.get(pk = benefit_id)
@@ -103,13 +104,13 @@ def benefit_qrcode(request):
     if not os.path.exists(image_dir):
         os.mkdir(image_dir)
     # check if qr code already exists
-    if os.path.isfile(image_dir + f'{benefit_id}.png'):
+    if os.path.isfile(image_dir + f'{benefit_id}_{member_id}.png'):
         return JsonResponse({'messge': 'qr code exists'})
     else:
-        img = qrcode.make(benefit_url)
-        print(benefit_url)
-        img.save(image_dir + f'{benefit_id}.png')
-        return JsonResponse({'messge': 'qr code saved'})
+        img = qrcode.make(redeem_url)
+        print(redeem_url)
+        img.save(image_dir + f'{benefit_id}_{member_id}.png')
+        return JsonResponse({'messge': f'qr code {benefit_id}_{member_id} saved'})
     
 @csrf_exempt
 @api_view(['POST'])
@@ -196,6 +197,23 @@ def user_create(request):
     data = Profile.objects.create(email=email, user=user, role=role, first_name=first_name, last_name=last_name,dob=dob,martial=martial,gender=gender, image=image, job_title=job_title, phoneNumber=phoneNumber)
     serializer = UserSerializer(user)
     return JsonResponse(serializer.data)
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def user_update(request):
+    user_id = request.query_params['id']
+    try:
+        user = Profile.objects.get(pk = int(user_id))
+    except ObjectDoesNotExist:
+        return JsonResponse({'message': f'Error: Cannot find user with id {user_id}'})
+    data = JSONParser().parse(request)
+    serializer = ProfileRESTSerializers(user, data = data, partial = True)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data, safe = False)
+    else:
+        return JsonResponse({'message': 'Error udpating user'})
     # return Response({'access_token': access_token, 'refresh_token': str(refresh) }, status=status.HTTP_201_CREATED)
     
 # @csrf_exempt
@@ -421,6 +439,7 @@ def reset_password(request):
 #     #     return JsonResponse({'message': 'Error: failed to create new benefit'})
 #     return JsonResponse(serializer, safe=False)
 @csrf_exempt
+@permission_classes([permissions.IsAuthenticated])
 @api_view(['GET'])
 def event_list(request):
     '''
@@ -429,6 +448,25 @@ def event_list(request):
     try:
         event_list = Event.objects.all()
         serializer = EventSerializer(event_list, many = True)
+        response = serializer.data
+    except ValidationError as e:
+        response = e.message
+    return JsonResponse(response, safe = False)
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def event_add_user(request):
+    '''
+    Add specific user to a specific event
+    '''
+    event_id = request.data['event']
+    user_id = request.data['user']
+    user = Profile.objects.get(user_id = user_id)
+    event = Event.objects.get(pk = event_id)
+    try:
+        event.assign_to_user(user)
+        serializer = EventSerializer(event)
         response = serializer.data
     except ValidationError as e:
         response = e.message
