@@ -101,7 +101,8 @@ def benefit_qrcode(request):
     except ObjectDoesNotExist as e:
         return JsonResponse({'message': f'Error, benefit with id {benefit_id} does not exist'})
     
-    image_dir = settings.MEDIA_ROOT + '/qr/'
+    image_dir = settings.QR_CODE
+    # image_dir = settings.MEDIA_ROOT + '/qr/'
     # check if media/qr folder doesnt exist, create it
     if not os.path.exists(image_dir):
         os.mkdir(image_dir)

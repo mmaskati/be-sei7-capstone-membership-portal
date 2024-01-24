@@ -189,6 +189,6 @@ CORS_ALLOW_CREDENTIALS = True
     # 'ACCESS_TOKEN_LIFETIME': timedelta(minutes=100)
 # }
  
-
+QR_CODE = os.path.join(BASE_DIR, 'fs_business_mvt/static/uploads/qr/')
 MEDIA_URL = 'membership_portal/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'membership_portal/media/')
