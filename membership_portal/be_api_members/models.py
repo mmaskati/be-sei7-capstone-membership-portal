@@ -119,7 +119,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length = 200)
     phoneNumber = models.CharField(max_length = 30)
     email = models.EmailField(max_length = 100)
-    phoneNumber = models.CharField(max_length= 30, default = "")
+    # phoneNumber = models.CharField(max_length= 30, default = "")
     # TO BE ADDED WHEN THE SALUTAION DATA IS AVAILABLE / comment by : Hussain
     # salutation = models.OneToOneField(Salutation,on_delete=models.CASCADE)
     martial = models.CharField(
