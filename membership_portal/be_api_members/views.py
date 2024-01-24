@@ -209,7 +209,7 @@ def user_create(request):
 def user_update(request):
     user_id = request.query_params['id']
     try:
-        user = Profile.objects.get(pk = int(user_id))
+        user = Profile.objects.get(user_id = int(user_id))
     except ObjectDoesNotExist:
         return JsonResponse({'message': f'Error: Cannot find user with id {user_id}'})
     data = JSONParser().parse(request)
