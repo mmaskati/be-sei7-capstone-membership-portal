@@ -43,8 +43,9 @@ class OrganizationUpdate(UpdateView):
         obj.country = Country.objects.get(pk=request.POST.get('country'))
         obj.zip_code = request.POST.get('zip_code')
         obj.content_info = request.POST.get('content_info')
-        obj.interests = request.POST.get('interests')
+        # obj.interests = request.POST.get('interests')
         obj.status = request.POST.get('status')
+        obj.interests.set([])
         # Save the updated object
         obj.save()
         return redirect('bussines_portal_app:organization_index')

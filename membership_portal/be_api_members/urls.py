@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('user/list', views.user_list, name = 'user_list'),
@@ -35,7 +36,12 @@ urlpatterns = [
 
     path('user/',views.user_detail,name='user_detail'),
     path('user/create/',views.user_create,name='user_create'),
+
+    path('user/invite/',views.user_invite,name='user_invite'),
+    path('user/reset/',views.reset_password,name="reset_password"),
+
     path('user/update',views.user_update,name='user_update'),
+
     # path('login/',views.LoginAPIView,name='login')  
 
     # Test model
