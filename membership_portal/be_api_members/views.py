@@ -49,14 +49,14 @@ def benefit_list(request):
     return JsonResponse(response, safe = False)
 
 @csrf_exempt
-@api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
+@api_view(['GET'])
+# @permission_classes([permissions.IsAuthenticated])
 def benefit_add_user(request):
     '''
     Add specific user to a specific benefit
     '''
-    benefit_id = request.data['benefit']
-    user_id = request.data['user']
+    benefit_id = request.query_params['benefit']
+    user_id = request.query_params['user']
     user = Profile.objects.get(user_id = user_id)
     benefit = Benefit.objects.get(pk = benefit_id)
     try:
@@ -92,7 +92,9 @@ def benefit_detail(request):
 def benefit_qrcode(request):
     benefit_id = request.query_params['id']
     member_id = request.query_params['member']
-    redeem_url = str(os.getenv('FRONTENDURL')) + f'/benefit/redeem?id={benefit_id}&memeber={member_id}'
+    # http://127.0.0.1:8000/api/benefit/adduser?benefit=1&user=1
+    # redeem_url = str(os.getenv('FRONTENDURL')) + f'/benefit/redeem?id={benefit_id}&memeber={member_id}'
+    redeem_url = f'http://127.0.0.1:8000/api/benefit/adduser?benefit={benefit_id}&user={member_id}'
     # if benefit doesnt exist, return an error
     try:
         benefit = Benefit.objects.get(pk = benefit_id)
@@ -110,7 +112,10 @@ def benefit_qrcode(request):
         img = qrcode.make(redeem_url)
         print(redeem_url)
         img.save(image_dir + f'{benefit_id}_{member_id}.png')
-        return JsonResponse({'messge': f'qr code {benefit_id}_{member_id} saved'})
+        return JsonResponse({
+            'messge': f'qr code {benefit_id}_{member_id} saved',
+            'url': f"{image_dir} + f'{benefit_id}_{member_id}.png'"
+                             })
     
 @csrf_exempt
 @api_view(['POST'])
@@ -204,7 +209,7 @@ def user_create(request):
 def user_update(request):
     user_id = request.query_params['id']
     try:
-        user = Profile.objects.get(pk = int(user_id))
+        user = Profile.objects.get(user_id = int(user_id))
     except ObjectDoesNotExist:
         return JsonResponse({'message': f'Error: Cannot find user with id {user_id}'})
     data = JSONParser().parse(request)
