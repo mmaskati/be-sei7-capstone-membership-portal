@@ -369,6 +369,43 @@ def plan_update(request):
     else:
         return JsonResponse({'message': 'Error udpating plan'})
 
+@csrf_exempt
+@api_view(['POST'])
+def user_invite(request):
+    password = request.data.get('password')
+    email = request.data.get('email')
+    if Profile.objects.filter(email=email).exists():
+        return JsonResponse({"response":"fail"})
+    role = 4
+    dob = request.data.get('dob')
+    martial = request.data.get('martial')
+    gender = request.data.get('gender')
+    first_name = request.data.get('first_name')
+    last_name = request.data.get('last_name')
+    image = ""
+    job_title = ""
+    phoneNumber = request.data.get('phoneNumber')
+    randInt = random.randint(1000,9999)
+    username = first_name+"-"+last_name+str(randInt)
+    orgId = request.data.get('organization_id')
+    # Create user
+    user = User.objects.create_user(username=username, password=password)
+    data = Profile.objects.create(email=email, user=user, role=role, first_name=first_name, last_name=last_name,dob=dob,martial=martial,gender=gender, image=image, job_title=job_title, phoneNumber=phoneNumber,organization_id = orgId,status=2)
+    serializer = UserSerializer(user)
+    return JsonResponse(serializer.data)
+
+@csrf_exempt
+@api_view(['POST'])
+def reset_password(request):
+    profile = get_object_or_404(Profile,email = request.data.get('email'))
+    user = User.objects.get(id = profile.user_id, password=request.data.get('currentPassword'))
+    user.set_password(request.data.get('password'))
+    user.save()
+    profile.status = 1
+    profile.save()
+    serializer = UserSerializer(user)
+    return JsonResponse(serializer.data)
+
 # @csrf_exempt
 # @api_view(['POST'])
 # @permission_classes([permissions.IsAuthenticated])
