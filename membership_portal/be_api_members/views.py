@@ -115,7 +115,9 @@ def benefit_qrcode(request):
         img.save(image_dir + f'{benefit_id}_{member_id}.png')
         return JsonResponse({
             'messge': f'qr code {benefit_id}_{member_id} saved',
-            'url': f"{image_dir} + f'{benefit_id}_{member_id}.png'"
+            'url': f"{image_dir} + f'{benefit_id}_{member_id}.png'",
+            "benefit_id":benefit_id,
+            "member_id":member_id,
                              })
     
 @csrf_exempt
