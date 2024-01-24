@@ -90,8 +90,9 @@ def benefit_detail(request):
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def benefit_qrcode(request):
-    benefit_url = str(os.getenv('FRONTENDURL'))
     benefit_id = request.query_params['id']
+    member_id = request.query_params['member']
+    redeem_url = str(os.getenv('FRONTENDURL')) + f'/benefit/redeem?id={benefit_id}&memeber={member_id}'
     # if benefit doesnt exist, return an error
     try:
         benefit = Benefit.objects.get(pk = benefit_id)
@@ -103,13 +104,13 @@ def benefit_qrcode(request):
     if not os.path.exists(image_dir):
         os.mkdir(image_dir)
     # check if qr code already exists
-    if os.path.isfile(image_dir + f'{benefit_id}.png'):
+    if os.path.isfile(image_dir + f'{benefit_id}_{member_id}.png'):
         return JsonResponse({'messge': 'qr code exists'})
     else:
-        img = qrcode.make(benefit_url)
-        print(benefit_url)
-        img.save(image_dir + f'{benefit_id}.png')
-        return JsonResponse({'messge': 'qr code saved'})
+        img = qrcode.make(redeem_url)
+        print(redeem_url)
+        img.save(image_dir + f'{benefit_id}_{member_id}.png')
+        return JsonResponse({'messge': f'qr code {benefit_id}_{member_id} saved'})
     
 @csrf_exempt
 @api_view(['POST'])
