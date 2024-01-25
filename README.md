@@ -10,8 +10,6 @@ The client app is a portal that can be used by application owner to perform admi
 
 https://drive.google.com/file/d/11NFxucsY-oLUPudnvShq-uWaoXBVbixX/view
 
-![Membership Portal ERD](https://github.com/mmaskati/be-sei7-capstone-membership-portal/assets/47180374/53468f68-19ff-4cff-ac13-71487d543d1a)
-
 ## Trello User Stories
 
 https://trello.com/invite/b/gMzU5mQU/ATTI8a084a091f817702c660eb86838a36660F10FBC1/membership-portal
