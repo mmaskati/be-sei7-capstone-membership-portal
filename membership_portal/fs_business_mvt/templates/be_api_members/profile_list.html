@@ -25,7 +25,7 @@
 {% for user in profile_list %}
 <tr>
 <td>{{forloop.counter}}</td>
-<td><img src="{% static user.image|cut:'fs_business_mvt/static/' %}" width="40px" height="40px" /></td>
+<td><img src="{% static user.image|cut:'fs_business_mvt/static/uploads' %}" width="40px" height="40px" /></td>
 <td>{{ user.first_name}} {{user.last_name}}</td>
 <td>{{ user.dob}}</td>
 <td>{{ user.email}}</td>

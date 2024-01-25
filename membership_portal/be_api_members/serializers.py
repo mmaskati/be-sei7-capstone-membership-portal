@@ -98,6 +98,7 @@ class OrganizationRESTSerializers(serializers.Serializer):
     zip_code = serializers.IntegerField()
     city = serializers.CharField(required = True)
     country_id = serializers.IntegerField(required = True)
+    plan_id = serializers.IntegerField(required = True)
     content_info = serializers.CharField(required = True)
     # interests = serializers.ManyRelatedField()
 

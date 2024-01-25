@@ -365,7 +365,7 @@ def organization_update(request):
 
 csrf_exempt
 @api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
+# @permission_classes([permissions.IsAuthenticated])
 def plan_list(request):
     '''
     Get list of all plans
@@ -420,7 +420,7 @@ def user_invite(request):
     gender = request.data.get('gender')
     first_name = request.data.get('first_name')
     last_name = request.data.get('last_name')
-    image = ""
+    image = "/membership_portal/media/fs_business_mvt/static/uploads/def-user_VqFJ7Ce.jpg"
     job_title = ""
     phoneNumber = request.data.get('phoneNumber')
     randInt = random.randint(1000,9999)
