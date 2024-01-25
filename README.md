@@ -42,13 +42,24 @@ DATABASEUSER =
 DATABASEPASSWORD = 
 DATABASEPORT = 5432
 ```
+## User Stories
+### Admin
+* As an Admin, I should be able to see all organizations.
+* As an Admin, I should be able to edit/update an organization.
+* As an Admin, I should be able to delete an organization.
+* As an Admin, I should be able to see all organization members.
+* As an Admin, I should be able to remove a user from the organization.
+* As an Admin, I should be able to see all users.
+* As an Admin, I should be able to update a user.
+
 
 ## Features
 
 * Backend user authentication and access token.
 * Backend input verification for most of the API endpoints.
-* CRUD operations for users, profiles, benefits and events.
+* CRUD operations for users, profiles, benefits, and events.
 * Admin portal interface to perform superuser actions.
+* Non-admin users cannot access the portal.
 
 ## API Documentation
 Most REST API endpoints are documented using postman, click [here to view the docs](https://documenter.getpostman.com/view/16097405/2s9YynnQFx#bba516ef-8787-4f22-8e05-6c488f05f330)
@@ -58,3 +69,6 @@ Most REST API endpoints are documented using postman, click [here to view the do
 * Role authentication and restrictions.
 * Invoice and payment routes.
 * Search feature.
+
+## List of Unsolved Problems
+* Some API handling Security needs to be fixed.
