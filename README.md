@@ -6,6 +6,12 @@ The REST API is responsible for user operations and all required endpoints and A
 
 The client app is a portal that can be used by application owner to perform admin tasks.
 
+## Backend Interface Screenshots
+
+<img width="1440" alt="image" src="https://github.com/mmaskati/be-sei7-capstone-membership-portal/assets/47180374/48b0a710-fe1d-413d-9098-bf5e98f444b2">
+
+<img width="1440" alt="image" src="https://github.com/mmaskati/be-sei7-capstone-membership-portal/assets/47180374/2a44a578-9000-40bd-9450-e6aab7cfc7fa">
+
 ## Entity Relationsjip Diagram
 
 https://drive.google.com/file/d/11NFxucsY-oLUPudnvShq-uWaoXBVbixX/view
