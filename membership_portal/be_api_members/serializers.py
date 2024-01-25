@@ -158,8 +158,13 @@ class ProfileRESTSerializers(serializers.Serializer):
     gender = serializers.CharField()
     job_title = serializers.CharField()
 
+    def get_validation_exclusions(self,*args,**kwargs):
+        print("Entered")
+        exclusions = super(PlanRESTSerializers,self).get_validation_exclusions()
+        return exclusions
+    
     def create(self, validated_data):
-        return Benefit.objects.create(**validated_data)
+        return Profile.objects.create(**validated_data)
     
     def update(self, instance, validated_data):
         instance.dob = validated_data.get('dob', instance.dob)

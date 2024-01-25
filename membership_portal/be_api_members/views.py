@@ -202,18 +202,30 @@ def user_create(request):
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def user_update(request):
-    user_id = request.query_params['id']
+    user_id1 = request.query_params['id']
+    print("here")
     try:
-        user = Profile.objects.get(pk = int(user_id))
+        user = Profile.objects.get(user_id = user_id1)
+        print("here2")
     except ObjectDoesNotExist:
-        return JsonResponse({'message': f'Error: Cannot find user with id {user_id}'})
-    data = JSONParser().parse(request)
-    serializer = ProfileRESTSerializers(user, data = data, partial = True)
+        return JsonResponse({'message': f'Error: Cannot find user with id {user_id1}'})
+    user.first_name = request.data.get('first_name')
+    user.last_name = request.data.get('last_name')
+    user.email = request.data.get('email')
+    user.save()
+    # print("req",request.data)
+    # data = JSONParser().parse(request.data)
+    # print("here3")
+    serializer = ProfileRESTSerializers(data=user)
+    # user2 = User.objects.get(id=user_id1)
+    # serializer = UserSerializer(data=user2)
     if serializer.is_valid():
+        print("Valid")
         serializer.save()
         return JsonResponse(serializer.data, safe = False)
     else:
-        return JsonResponse({'message': 'Error udpating user'})
+        print("not valid")
+        return JsonResponse({'message': 'Error updating user'})
     # return Response({'access_token': access_token, 'refresh_token': str(refresh) }, status=status.HTTP_201_CREATED)
     
 # @csrf_exempt
