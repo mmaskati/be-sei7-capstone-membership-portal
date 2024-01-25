@@ -178,7 +178,7 @@ class SignUpProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name','image','dob','email','martial','gender','role','nationality_id','status','organization_id','user_id']
+        fields = ['first_name', 'last_name','image','dob','email','martial','gender','role','nationality_id','status','organization_id','user_id', 'job_title', 'phoneNumber']
         
     def create(self, validated_data):
         User.objects.create()

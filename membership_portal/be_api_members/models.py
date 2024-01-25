@@ -218,6 +218,8 @@ class Event(models.Model):
         else:
             raise ValidationError("User is already registered in this event.")
 
+    def __str__(self):
+        return self.title
     # def __str__(self):
     #     return f'{self.title}'
 
