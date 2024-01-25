@@ -14,6 +14,10 @@ https://drive.google.com/file/d/11NFxucsY-oLUPudnvShq-uWaoXBVbixX/view
 
 https://trello.com/invite/b/gMzU5mQU/ATTI8a084a091f817702c660eb86838a36660F10FBC1/membership-portal
 
+## Technology Stack
+
+The backend is powered by Python, django, PostgreSQL
+
 ## Dependencies
 
 Python packages are required to run the server, run `pip install` with the following packages:
